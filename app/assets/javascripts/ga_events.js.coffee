@@ -1,3 +1,5 @@
+# TODO Sven: Dokumentieren, wie und wann diese Datei geladen werden sollte.
+
 window.GaEvents = {}
 
 class GaEvents.Event
@@ -51,6 +53,7 @@ class GaEvents.GoogleTagManagerAdapter
   push: (data) ->
     data["event"] = @event
     data["non_interaction"] = true
+    # TODO Sven: Hier kein "window."?
     dataLayer.push(data)
 
 class GaEvents.GoogleAnalyticsAdapter

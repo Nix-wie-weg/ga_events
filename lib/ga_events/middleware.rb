@@ -14,8 +14,7 @@ module GaEvents
       if GaEvents::List.present?
         request = Rack::Request.new(env)
 
-        # Can outgrow, headers might get to big
-        # TODO: Document a notification solution
+        # Can outgrow, headers might get too big
         serialized = GaEvents::List.to_s
 
         if request.xhr?
