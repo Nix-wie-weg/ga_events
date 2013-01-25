@@ -1,4 +1,5 @@
-# TODO Sven: Dokumentieren, wie und wann diese Datei geladen werden sollte.
+# This file should be required as soon a possible to allow for
+# early event tracking.
 
 window.GaEvents = {}
 
@@ -53,8 +54,7 @@ class GaEvents.GoogleTagManagerAdapter
   push: (data) ->
     data["event"] = @event
     data["non_interaction"] = true
-    # TODO Sven: Hier kein "window."?
-    dataLayer.push(data)
+    window.dataLayer.push(data)
 
 class GaEvents.GoogleAnalyticsAdapter
   push: (obj) ->
