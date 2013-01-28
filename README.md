@@ -46,8 +46,8 @@ GaEvents.Event.adapter = function() {
 
 ## Usage
 
-On the server-side a new event is added to a list, serialized into a container 
-element and then added to your HTML response. On ajax requests a custom 
+On the server-side a new event is added to a list, serialized into a container
+element and then added to your HTML response. On ajax requests a custom
 http-header is added to the response.
 
 You can create a new event like this:
@@ -62,7 +62,7 @@ On the client-side there is a similar interface to GaEvents:
 new GaEvents.Event(category, action, label, value)
 ```
 
-We have taken special care of tracking events while the DOM is loading.  
+We have taken special care of tracking events while the DOM is loading.
 Events get collected until the DOM is ready and flushed afterwards.
 
 ### Too many events
@@ -70,16 +70,18 @@ Events get collected until the DOM is ready and flushed afterwards.
 Use something like this snippet to get informed of bloating HTTP headers with
 event data:
 
-    class ApplicationController < ActionController::Base
-      after_filter :too_many_ga_events?
-      private
-      def too_many_ga_events?
-        if (serialized = GaEvents::List.to_s).length > 1_024
-          notify("GaEvents too big: #{serialized}")
-        end
-        true
-      end
+```ruby
+class ApplicationController < ActionController::Base
+  after_filter :too_many_ga_events?
+  private
+  def too_many_ga_events?
+    if (serialized = GaEvents::List.to_s).length > 1_024
+      notify("GaEvents too big: #{serialized}")
     end
+    true
+  end
+end
+```
 
 ## Contributing
 

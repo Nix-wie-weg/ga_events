@@ -7,8 +7,15 @@ Gem::Specification.new do |gem|
                        'sven.winkler@nix-wie-weg.de']
   gem.description   =
     %q{Google Analytics' Event Tracking everywhere in your Rails app}
-  gem.summary       =
-    %q{This gem alllows you to annotate events everywhere in the code of your Rails app.  A rack middleware is automatically inserted into the stack. It transports the event data to the client. Normal requests get a DIV injected, AJAX requests get a data-pounded custom HTTP header appended.  The asset pipeline-ready CoffeeScript extracts this data on the client side and pushes it to Google Analytics via ga.js or Google Tag Manager.}
+  gem.summary       = 'This gem alllows you to annotate events everywhere in ' \
+                      'the code of your Rails app.  A rack middleware is ' \
+                      'automatically inserted into the stack. It transports ' \
+                      'the event data to the client. Normal requests get a ' \
+                      'DIV injected, AJAX requests get a data-pounded custom ' \
+                      'HTTP header appended.  The asset pipeline-ready ' \
+                      'CoffeeScript extracts this data on the client side ' \
+                      'and pushes it to Google Analytics via ga.js or Google ' \
+                      'Tag Manager.'
   gem.homepage      = 'https://github.com/Nix-wie-weg/ga_events'
 
   gem.files         = `git ls-files`.split($\)
