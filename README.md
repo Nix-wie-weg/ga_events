@@ -5,9 +5,9 @@ Use Google Analytics' Event Tracking everywhere in your Rails app!
 This gem alllows you to annotate events everywhere in the code of your Rails
 app.
 A rack middleware is automatically inserted into the stack. It transports
-the event data to the client. Normal requests get a DIV injected, AJAX requests
+the event data to the client. Normal requests get a DIV injected, Ajax requests
 get a data-pounded custom HTTP header appended.
-The asset pipeline-ready CoffeeScript extracts this data on the client side and
+The asset pipeline-ready CoffeeScript extracts this data on the client-side and
 pushes it to Google Analytics via ga.js or Google Tag Manager.
 
 ## Installation
@@ -47,8 +47,8 @@ GaEvents.Event.adapter = function() {
 ## Usage
 
 On the server-side a new event is added to a list, serialized into a container
-element and then added to your HTML response. On ajax requests a custom
-http-header is added to the response.
+element and then added to your HTML response. On Ajax requests a custom
+HTTP header is added to the response.
 
 You can create a new event like this:
 
