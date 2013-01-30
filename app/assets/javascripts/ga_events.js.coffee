@@ -61,4 +61,4 @@ class GaEvents.GoogleAnalyticsAdapter
     data = ["_trackEvent", obj["action"], obj["category"]]
     data.push(obj["label"]) if obj.label?
     data.push(obj["value"]) if obj.value?
-    window._qaq.push(data)
+    window._gaq.push(data)
