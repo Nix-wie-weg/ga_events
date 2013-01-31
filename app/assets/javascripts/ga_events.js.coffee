@@ -32,11 +32,22 @@ class GaEvents.Event
     data =
       action: @action
       category: @category
-    data.label = @label if @is_valid_value(@label)
-    data.value = @value if @is_valid_value(@value)
+    data.label = @label if @is_present @label
+
+    if @is_present @value
+      # @value is a number and of type integer.
+      if isFinite(@value) and Number(@value) % 1 is 0
+        # Google Analytics expects a positive integer
+        if (value = parseInt @value) > -1
+          data.value = value
+        else
+          throw "Negative integers are not supported at this time."
+      else
+        throw "The parameter 'value' must be of type integer."
+
     @klass.adapter().push data
 
-  is_valid_value: (value) -> value? and value != ''
+  is_present: (value) -> value? and value != ""
 
   jQuery =>
     @may_flush = true
