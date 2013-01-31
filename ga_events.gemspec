@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
                        'daniel.bayerlein@nix-wie-weg.de']
   gem.description   =
     %q{Google Analytics' Event Tracking everywhere in your Rails app}
-  gem.summary       = 'This gem alllows you to annotate events everywhere in ' \
-                      'the code of your Rails app.  A rack middleware is ' \
+  gem.summary       = 'This gem allows you to annotate events everywhere in ' \
+                      'the code of your Rails app. A rack middleware is ' \
                       'automatically inserted into the stack. It transports ' \
                       'the event data to the client. Normal requests get a ' \
                       'DIV injected, AJAX requests get a data-pounded custom ' \
