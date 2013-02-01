@@ -87,7 +87,8 @@ end
 
 Yes please! Use pull requests.
 
-## More docs
+## More docs and tools
 
 * [Google Analytics: Event Tracking](https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide)
 * [Google Tag Manager: Custom Events](http://support.google.com/tagmanager/answer/2574372#GoogleAnalytics)
+* [Chrome Web Store: Event Tracking Tracker](https://chrome.google.com/webstore/detail/event-tracking-tracker/npjkfahkbgoagkfpkidpjdemjjmmbcim)
