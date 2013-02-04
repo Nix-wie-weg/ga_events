@@ -73,3 +73,6 @@ class GaEvents.GoogleAnalyticsAdapter
     data.push(obj["label"]) if obj.label?
     data.push(obj["value"]) if obj.value?
     window._gaq.push(data)
+
+class GaEvents.NullAdapter
+  push: (obj) -> console.log obj if console?

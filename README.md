@@ -42,7 +42,15 @@ If you are using Google Tag Manager you can add custom events which are then pas
 GaEvents.Event.adapter = function() {
   return new GaEvents.GoogleTagManagerAdapter("event_name"); // defaults to ga_event
 }
-  ```
+```
+
+If you are using a staging system you can use the `NullAdapter`.
+
+```javascript
+GaEvents.Event.adapter = function() {
+  return new GaEvents.NullAdapter();
+}
+```
 
 ## Usage
 
