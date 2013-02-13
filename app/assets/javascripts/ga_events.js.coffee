@@ -69,7 +69,7 @@ class GaEvents.GoogleTagManagerAdapter
 
 class GaEvents.GoogleAnalyticsAdapter
   push: (obj) ->
-    data = ["_trackEvent", obj["action"], obj["category"]]
+    data = ["_trackEvent", obj["category"], obj["action"]]
     data.push(obj["label"]) if obj.label?
     data.push(obj["value"]) if obj.value?
     window._gaq.push(data)
