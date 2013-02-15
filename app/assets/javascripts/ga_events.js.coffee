@@ -29,10 +29,14 @@ class GaEvents.Event
     @klass.flush()
 
   push_to_adapter: ->
+    # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
+    # Category, Action and Label must be of type string.
+    # Value must be a positive integer.
+
     data =
-      action: @action
-      category: @category
-    data.label = @label if @is_present @label
+      action: "#{@action}"
+      category: "#{@category}"
+    data.label = "#{@label}" if @is_present @label
 
     if @is_present @value
       # @value is a number and of type integer.
