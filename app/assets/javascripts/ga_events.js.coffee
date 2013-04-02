@@ -74,8 +74,9 @@ class GaEvents.GoogleTagManagerAdapter
 class GaEvents.GoogleAnalyticsAdapter
   push: (obj) ->
     data = ["_trackEvent", obj["category"], obj["action"]]
-    data.push(obj["label"]) if obj.label?
-    data.push(obj["value"]) if obj.value?
+    data.push(obj["label"])
+    data.push(obj["value"])
+    data.push(true) # opt_noninteraction
     window._gaq.push(data)
 
 class GaEvents.NullAdapter
