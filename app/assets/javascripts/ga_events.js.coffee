@@ -14,7 +14,7 @@ class GaEvents.Event
   # Decompose a dom-string (ruby side) into an event object.
   @from_string: (string) ->
     $.map string.split("$"), (part) =>
-      [category, action, label, value] = part.split("|")
+      [category, action, label, value] = part.split "|"
       new @(category, action, label, value)
 
   # Events should not be send to an adapter unless the DOM has finished loading.
@@ -58,25 +58,26 @@ class GaEvents.Event
     @flush()
 
     $(document).ajaxComplete (event, xhr) =>
-      xhr_events = xhr.getResponseHeader(@header_key)
-      @from_string(xhr_events) if xhr_events?
+      xhr_events = xhr.getResponseHeader @header_key
+      @from_string xhr_events if xhr_events?
 
-    dom_events = $("div[data-#{@html_key}]").data(@html_key)
-    @from_string(dom_events) if dom_events?
+    dom_events = $("div[data-#{@html_key}]").data @html_key
+    @from_string dom_events if dom_events?
 
 class GaEvents.GoogleTagManagerAdapter
   constructor: (@event = "ga_event") ->
   push: (data) ->
     data["event"] = @event
     data["non_interaction"] = true
-    window.dataLayer.push(data)
+    window.dataLayer.push data
 
 class GaEvents.GoogleAnalyticsAdapter
   push: (obj) ->
     data = ["_trackEvent", obj["category"], obj["action"]]
-    data.push(obj["label"]) if obj.label?
-    data.push(obj["value"]) if obj.value?
-    window._gaq.push(data)
+    data.push obj["label"]
+    data.push obj["value"]
+    data.push true # opt_noninteraction
+    window._gaq.push data
 
 class GaEvents.NullAdapter
   push: (obj) -> console.log obj if console?
