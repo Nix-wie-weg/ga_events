@@ -10,9 +10,14 @@ get a data-pounded custom HTTP header appended.
 The asset pipeline-ready CoffeeScript extracts this data on the client-side and
 pushes it to Google Analytics via ga.js or Google Tag Manager.
 
+## Dependencies
+
+* Rails 3.1 onwards
+* jQuery
+
 ## Installation
 
-GaEvents works with Rails 3.1 onwards. You can add it to your `Gemfile` with:
+Add it to your `Gemfile` with:
 
 ```ruby
 gem 'ga_events'
@@ -20,7 +25,7 @@ gem 'ga_events'
 
 Run the `bundle` command to install it.
 
-Add to the top of your `application.js`:
+Add to the top of your `application.js` (but after requiring jQuery):
 
 ```javascript
 //= require ga_events.js
