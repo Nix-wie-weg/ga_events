@@ -36,7 +36,7 @@ module GaEvents
 
         elsif is_html?(status, headers)
           body = response
-          body = body.each.to_a.join('') if body.respond_to?(:each)
+          body = body.each.to_a.join if body.respond_to?(:each)
           body = body.sub('</body>',
             "<div data-ga-events='#{serialized}'></div>\\0")
           response = [body]
