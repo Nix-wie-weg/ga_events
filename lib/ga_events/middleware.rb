@@ -1,8 +1,5 @@
 require 'rack/utils'
 
-# TODO: Answer https://github.com/Nix-wie-weg/ga_events/issues/2
-# TODO: Gem bump
-
 module GaEvents
   class Middleware
     def initialize(app)
@@ -10,7 +7,8 @@ module GaEvents
     end
     def call(env)
       # Handle events stored in flash
-      # Parts borrowed from Rails: https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_dispatch/middleware/flash.rb
+      # Parts borrowed from Rails:
+      # https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_dispatch/middleware/flash.rb
       flash = env['rack.session'] && env['rack.session']['flash']
       GaEvents::List.init(flash && flash['ga_events'])
 
