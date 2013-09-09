@@ -14,8 +14,10 @@ module GaEvents::List
     data.present?
   end
 
-  def self.init
+  # Init list, optionally with a string of serialized events
+  def self.init(str = nil)
     Thread.current[:ga_events] = []
+    (str || '').split('$').each { |s| GaEvents::Event.from_string(s) }
   end
 
   def self.data
