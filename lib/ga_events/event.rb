@@ -8,6 +8,9 @@ module GaEvents
     def to_s
       [category, action, label, value].join('|')
     end
+
+    def self.from_string(str)
+      new(*str.split('|'))
+    end
   end
 end
-

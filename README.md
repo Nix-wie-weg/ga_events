@@ -6,7 +6,8 @@ This gem alllows you to annotate events everywhere in the code of your Rails
 app.
 A rack middleware is automatically inserted into the stack. It transports
 the event data to the client. Normal requests get a DIV injected, Ajax requests
-get a data-pounded custom HTTP header appended.
+get a data-pounded custom HTTP header appended. In case of redirects the data
+survives inside Rails' flash.
 The asset pipeline-ready CoffeeScript extracts this data on the client-side and
 pushes it to Google Analytics via ga.js or Google Tag Manager.
 
