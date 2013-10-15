@@ -79,5 +79,16 @@ class GaEvents.GoogleAnalyticsAdapter
     data.push true # opt_noninteraction
     window._gaq.push data
 
+class GaEvents.GoogleAnalyticsJsAdapter
+  # https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+  push: (obj) ->
+    data =
+      'hitType': 'event'
+      'eventCategory': obj['category']
+      'eventAction': obj['action']
+    data['eventLabel'] = obj['label']  if obj['label']?
+    data['eventValue'] = obj['value']  if obj['value']?
+    window.ga 'send', data
+
 class GaEvents.NullAdapter
   push: (obj) -> console.log obj if console?
