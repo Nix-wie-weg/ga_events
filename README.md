@@ -42,7 +42,8 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
-If you are using Google Tag Manager you can add custom events which are then passed through to Google Analytics.
+If you are using Google Tag Manager you can add custom events which are then
+passed through to Google Analytics.
 
 ```javascript
 GaEvents.Event.adapter = function() {
@@ -78,6 +79,12 @@ new GaEvents.Event(category, action, label, value)
 
 We have taken special care of tracking events while the DOM is loading.
 Events get collected until the DOM is ready and flushed afterwards.
+
+### Default values
+
+While collecting hundreds of thousands of events on a daily basis in
+GoogleAnalytics we found corrupted aggregated events when the event label or
+value is omitted. We now enforce a default label ("-") and value (1).
 
 ### Too many events
 
