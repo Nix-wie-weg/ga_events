@@ -55,4 +55,3 @@ module GaEvents
     end
   end
 end
-
