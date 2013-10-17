@@ -42,6 +42,14 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
+For Google Universal Analytics use:
+
+```javascript
+GaEvents.Event.adapter = function() {
+  return new GaEvents.GoogleUniversalAnalyticsAdapter();
+}
+```
+
 If you are using Google Tag Manager you can add custom events which are then
 passed through to Google Analytics.
 
