@@ -25,6 +25,7 @@ class GaEvents.Event
 
   # Add all events to a queue to flush them later
   constructor: (@category, @action, @label, @value) ->
+    # TODO: Provide defaults? ('-', '-', '-', 1)
     @klass.list.push @
     @klass.flush()
 
@@ -38,6 +39,7 @@ class GaEvents.Event
       category: "#{@category}"
     data.label = "#{@label}" if @is_present @label
 
+    # TODO: Change handling here?
     if @is_present @value
       # @value is a number and of type integer.
       if isFinite(@value) and Number(@value) % 1 is 0

@@ -1,5 +1,5 @@
 # NOTE: Collecting the events is thread-safe, but will cause problems in an
-#       asynchronous environment.
+#       asynchronous/evented environment.
 
 module GaEvents::List
   def self.<<(event)

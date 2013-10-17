@@ -1,6 +1,7 @@
 module GaEvents
   class Event < Struct.new(:category, :action, :label, :value)
-    def initialize(category, action, label = nil, value = nil)
+    # TODO: Link zu documentation regarding fixed label and value != nil
+    def initialize(category, action, label, value = 1)
       super
       GaEvents::List << self
     end
