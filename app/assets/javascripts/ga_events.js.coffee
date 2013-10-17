@@ -36,10 +36,6 @@ class GaEvents.Event
     # Value has to be a positive integer or defaults to 1
     value: @to_positive_integer(@value)
 
-  to_a: ->
-    h = to_hash()
-    [h["action"], h["category"], h["label"], h["value"]]
-
   to_positive_integer: (n) ->
     if isFinite(n) and parseInt(n) >= 0 then parseInt n else 1
 
@@ -60,15 +56,15 @@ class GaEvents.Event
 class GaEvents.GoogleTagManagerAdapter
   constructor: (@event = "ga_event") ->
   push: (data) ->
-    data["event"] = @event
-    data["non_interaction"] = true
+    data.event = @event
+    data.non_interaction = true
     window.dataLayer.push data
 
 class GaEvents.GoogleAnalyticsAdapter
-  # send events non_interactive => no influence on bounce rates
+  # Send events non_interactive => no influence on bounce rates
   push: (h) ->
     window._gaq.push(
-      ["_trackEvent", h["action"], h["category"], h["label"], h["value"], true])
+      ["_trackEvent", h.action, h.category, h.label, h.value, true])
 
 class GaEvents.NullAdapter
   push: (obj) -> console.log obj if console?
