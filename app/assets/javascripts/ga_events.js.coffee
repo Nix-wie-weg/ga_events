@@ -60,11 +60,14 @@ class GaEvents.GoogleTagManagerAdapter
     data.non_interaction = true
     window.dataLayer.push data
 
+class GaEvents.GoogleUniversalAnalyticsAdapter
+  push: (h) -> window.ga "send", "event", h.category, h.action, h.label, h.value
+
 class GaEvents.GoogleAnalyticsAdapter
   # Send events non_interactive => no influence on bounce rates
   push: (h) ->
     window._gaq.push(
-      ["_trackEvent", h.action, h.category, h.label, h.value, true])
+      ["_trackEvent", h.category, h.action, h.label, h.value, true])
 
 class GaEvents.NullAdapter
   push: (obj) -> console.log obj if console?
