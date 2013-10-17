@@ -24,36 +24,27 @@ class GaEvents.Event
       @list = []
 
   # Add all events to a queue to flush them later
-  constructor: (@category, @action, @label, @value) ->
-    # TODO: Provide defaults? ('-', '-', '-', 1)
+  constructor: (@category = "-", @action = "-", @label = "-", @value = 1) ->
     @klass.list.push @
     @klass.flush()
 
-  push_to_adapter: ->
-    # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
-    # Category, Action and Label must be of type string.
-    # Value must be a positive integer.
+  to_hash: ->
+    # Category, action and label must be of type string.
+    action: "#{@action}"
+    category: "#{@category}"
+    label: "#{@label}"
+    # Value has to be a positive integer or defaults to 1
+    value: @to_positive_integer(@value)
 
-    data =
-      action: "#{@action}"
-      category: "#{@category}"
-    data.label = "#{@label}" if @is_present @label
+  to_a: ->
+    h = to_hash()
+    [h["action"], h["category"], h["label"], h["value"]]
 
-    # TODO: Change handling here?
-    if @is_present @value
-      # @value is a number and of type integer.
-      if isFinite(@value) and Number(@value) % 1 is 0
-        # Google Analytics expects a positive integer
-        if (value = parseInt @value) > -1
-          data.value = value
-        else
-          throw "Negative integers are not supported at this time."
-      else
-        throw "The parameter 'value' must be of type integer."
+  to_positive_integer: (n) ->
+    if isFinite(n) and parseInt(n) >= 0 then parseInt n else 1
 
-    @klass.adapter().push data
-
-  is_present: (value) -> value? and value != ""
+  # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
+  push_to_adapter: -> @klass.adapter().push @to_hash()
 
   jQuery =>
     @may_flush = true
@@ -74,12 +65,10 @@ class GaEvents.GoogleTagManagerAdapter
     window.dataLayer.push data
 
 class GaEvents.GoogleAnalyticsAdapter
-  push: (obj) ->
-    data = ["_trackEvent", obj["category"], obj["action"]]
-    data.push obj["label"]
-    data.push obj["value"]
-    data.push true # opt_noninteraction
-    window._gaq.push data
+  # send events non_interactive => no influence on bounce rates
+  push: (h) ->
+    window._gaq.push(
+      ["_trackEvent", h["action"], h["category"], h["label"], h["value"], true])
 
 class GaEvents.NullAdapter
   push: (obj) -> console.log obj if console?
