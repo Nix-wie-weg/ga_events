@@ -116,6 +116,10 @@ end
 
 Yes please! Use pull requests.
 
+### Credits
+
+* [jhilden](https://github.com/jhilden) for ideas and Rails 4 support
+
 ## More docs and tools
 
 * [Google Analytics: Event Tracking](https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide)
