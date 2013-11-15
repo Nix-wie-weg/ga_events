@@ -42,7 +42,7 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
-For Google Universal Analytics use:
+For Google Universal Analytics (analytics.js) use:
 
 ```javascript
 GaEvents.Event.adapter = function() {
