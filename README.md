@@ -112,13 +112,27 @@ class ApplicationController < ActionController::Base
 end
 ```
 
+### Testing
+
+Middlewares aren't loaded in controller specs, so you have to initialize
+GaEvents by hand. You can do this eg. in your `spec_helper.rb`:
+
+```ruby spec_helper.rb
+RSpec.configure do |config|
+  [...]
+  config.before(:each, type: :controller) do
+    GaEvents::List.init
+  end
+end
+```
+
 ## Contributing
 
 Yes please! Use pull requests.
 
 ### Credits
 
-* [jhilden](https://github.com/jhilden) for ideas and Rails 4 support
+* [jhilden](https://github.com/jhilden) for ideas and bug reports
 
 ## More docs and tools
 
