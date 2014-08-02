@@ -131,6 +131,7 @@ Yes please! Use pull requests.
 
 ### Credits
 
+* [danielbayerlein](https://github.com/danielbayerlein) former core committer
 * [jhilden](https://github.com/jhilden) for ideas and bug reports
 
 ## More docs and tools
