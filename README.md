@@ -123,8 +123,7 @@ RSpec.configure do |config|
   config.before(:each, type: :controller) do
     GaEvents::List.init
   end
-end
-```
+end```
 
 ## Contributing
 
