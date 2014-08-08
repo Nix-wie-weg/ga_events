@@ -123,8 +123,7 @@ RSpec.configure do |config|
   config.before(:each, type: :controller) do
     GaEvents::List.init
   end
-end
-```
+end```
 
 ## Contributing
 
@@ -132,6 +131,7 @@ Yes please! Use pull requests.
 
 ### Credits
 
+* [danielbayerlein](https://github.com/danielbayerlein) former core committer
 * [jhilden](https://github.com/jhilden) for ideas and bug reports
 
 ## More docs and tools
