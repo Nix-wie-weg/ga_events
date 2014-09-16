@@ -117,13 +117,14 @@ end
 Middlewares aren't loaded in controller specs, so you have to initialize
 GaEvents by hand. You can do this eg. in your `spec_helper.rb`:
 
-```ruby spec_helper.rb
+```ruby
 RSpec.configure do |config|
   [...]
   config.before(:each, type: :controller) do
     GaEvents::List.init
   end
-end```
+end
+```
 
 ## Contributing
 
