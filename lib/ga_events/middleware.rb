@@ -5,6 +5,7 @@ module GaEvents
     def initialize(app)
       @app = app
     end
+
     def call(env)
       # Handle events stored in flash
       # Parts borrowed from Rails:
@@ -34,10 +35,11 @@ module GaEvents
           flash_hash ||= ActionDispatch::Flash::FlashHash.new
           flash_hash['ga_events'] = serialized
           env[ActionDispatch::Flash::KEY] = flash_hash
-
         elsif is_html?(status, headers)
           body = response
-          body = body.each.to_a.join if body.respond_to?(:each)
+          body = body.body if body.respond_to?(:body)
+          body = body.join if body.respond_to?(:join)
+
           body = body.sub('</body>',
             "<div data-ga-events='#{serialized}'></div>\\0")
           response = [body]
