@@ -13,6 +13,7 @@ pushes it to Google Analytics via ga.js or Google Tag Manager.
 
 ## Dependencies
 
+* Ruby >= 1.9
 * Rails 3.1 onwards
 * jQuery
 
