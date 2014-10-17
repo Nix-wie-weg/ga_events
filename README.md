@@ -13,6 +13,7 @@ pushes it to Google Analytics via ga.js or Google Tag Manager.
 
 ## Dependencies
 
+* Ruby >= 1.9
 * Rails 3.1 onwards
 * jQuery
 
@@ -134,6 +135,7 @@ Yes please! Use pull requests.
 
 * [danielbayerlein](https://github.com/danielbayerlein) former core committer
 * [jhilden](https://github.com/jhilden) for ideas and bug reports
+* [brain-geek](https://github.com/brain-geek) for bug fixes, specs, features
 
 ## More docs and tools
 

@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ['florian.duetsch@nix-wie-weg.de',
                        'sven.winkler@nix-wie-weg.de']
   gem.description   =
-    %q{Google Analytics' Event Tracking everywhere in your Rails app}
+    "Google Analytics' Event Tracking everywhere in your Rails app)"
   gem.summary       = 'This gem allows you to annotate events everywhere in ' \
                       'the code of your Rails app. A rack middleware is ' \
                       'automatically inserted into the stack. It transports ' \
@@ -18,11 +18,11 @@ Gem::Specification.new do |gem|
                       'Tag Manager.'
   gem.homepage      = 'https://github.com/Nix-wie-weg/ga_events'
 
-  gem.files         = `git ls-files`.split($\)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "ga_events"
-  gem.require_paths = ["lib"]
+  gem.files         = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
+  gem.executables   = gem.files.grep(/^bin\//).map { |f| File.basename(f) }
+  gem.test_files    = gem.files.grep(/^(test|spec|features)\//)
+  gem.name          = 'ga_events'
+  gem.require_paths = ['lib']
   gem.version       = GaEvents::VERSION
 
   gem.add_dependency 'rails', '>= 3.1'
