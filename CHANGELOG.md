@@ -14,7 +14,7 @@ The format suggested at http://keepachangelog.com/ is used.
 
 ### Added
 - Some documentation regarding controller specs
-- Middleware specs
+- More middleware specs
 
 ### Fixed
 - Error returns white page
