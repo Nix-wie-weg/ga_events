@@ -61,16 +61,12 @@ class GaEvents.GoogleTagManagerAdapter
     window.dataLayer.push data
 
 class GaEvents.GoogleUniversalAnalyticsAdapter
-  constructor: (@tracker_name = "") ->
+  constructor: (@method_call_name = "send", tracker_name) ->
+    @method_call_name = "#{tracker_name}.#{@method_call_name}" if tracker_name
 
   push: (h) ->
-    method_call_name = "send"
-
-    if @tracker_name.length > 0
-      method_call_name = "#{@tracker_name}.send"
-
-    window.ga method_call_name, "event", h.category, h.action, h.label, h.value,
-              {"nonInteraction": true}
+    window.ga @method_call_name, "event", h.category, h.action, h.label,
+              h.value, {"nonInteraction": true}
 
 class GaEvents.GoogleAnalyticsAdapter
   # Send events non_interactive => no influence on bounce rates

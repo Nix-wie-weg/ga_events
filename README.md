@@ -33,9 +33,9 @@ Add to the top of your `application.js` (but after requiring jQuery):
 //= require ga_events.js
 ```
 
-After requiring `ga_events.js`, choose an adapter.
+After requiring `ga_events.js`, you have to choose an adapter.
 
-For stock Google Analytics (ga.js) use:
+### Google Analytics (ga.js)
 
 ```javascript
 GaEvents.Event.adapter = function() {
@@ -43,13 +43,23 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
-For Google Universal Analytics (analytics.js) use:
+### Google Universal Analytics (analytics.js)
 
 ```javascript
 GaEvents.Event.adapter = function() {
   return new GaEvents.GoogleUniversalAnalyticsAdapter();
 }
 ```
+
+Optionally you can specify a custom method to call and a custom tracker name:
+
+```javascript
+GaEvents.Event.adapter = function() {
+  return new GaEvents.GoogleUniversalAnalyticsAdapter("sendNow", "customTracker");
+}
+```
+
+### Google TagManager
 
 If you are using Google Tag Manager you can add custom events which are then
 passed through to Google Analytics.
@@ -60,7 +70,9 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
-If you are using a staging system you can use the `NullAdapter`.
+### Testing
+
+For your testing pleasure we included `NullAdapter`.
 
 ```javascript
 GaEvents.Event.adapter = function() {
