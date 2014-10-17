@@ -61,8 +61,15 @@ class GaEvents.GoogleTagManagerAdapter
     window.dataLayer.push data
 
 class GaEvents.GoogleUniversalAnalyticsAdapter
+  constructor: (@tracker_name = "") ->
+
   push: (h) ->
-    window.ga "send", "event", h.category, h.action, h.label, h.value,
+    method_call_name = "send"
+
+    if @tracker_name.length > 0
+      method_call_name = "#{@tracker_name}.send"
+
+    window.ga method_call_name, "event", h.category, h.action, h.label, h.value,
               {"nonInteraction": true}
 
 class GaEvents.GoogleAnalyticsAdapter
