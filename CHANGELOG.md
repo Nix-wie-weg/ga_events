@@ -2,9 +2,6 @@
 All notable changes to this project will be documented in this file.
 The format suggested at http://keepachangelog.com/ is used.
 
-## master
-
-
 ## 1.0.1 - 2014-04-29
 
 ### Fixed
@@ -13,7 +10,7 @@ The format suggested at http://keepachangelog.com/ is used.
 ## 1.1.0 - 2014-10-17
 
 ### Added
-- Some documentation regarding controller specs
+- Some documentation regarding controller specs (closes #10)
 - More middleware specs
 
 ### Fixed
