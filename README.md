@@ -13,6 +13,7 @@ pushes it to Google Analytics via ga.js or Google Tag Manager.
 
 ## Dependencies
 
+* Ruby >= 1.9
 * Rails 3.1 onwards
 * jQuery
 
@@ -34,7 +35,7 @@ Add to the top of your `application.js` (but after requiring jQuery):
 
 After requiring `ga_events.js`, you have to choose an adapter.
 
-### Google Analytics (gs.js)
+### Google Analytics (ga.js)
 
 ```javascript
 GaEvents.Event.adapter = function() {
@@ -146,7 +147,7 @@ Yes please! Use pull requests.
 
 * [danielbayerlein](https://github.com/danielbayerlein) former core committer
 * [jhilden](https://github.com/jhilden) for ideas and bug reports
-* [brain-geek](https://github.com/brain-geek) for tuning GoogleUniversalAnalyticsAdapter
+* [brain-geek](https://github.com/brain-geek) for bug fixes, specs, features
 
 ## More docs and tools
 
