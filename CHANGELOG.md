@@ -4,10 +4,17 @@ The format suggested at http://keepachangelog.com/ is used.
 
 ## master
 
-### Added
-- Some documentation regarding controller specs (closes #10)
 
 ## 1.0.1 - 2014-04-29
 
 ### Fixed
 - Universal Analytics Adapter now marks event as non-interaction.
+
+## 1.1.0 - 2014-10-17
+
+### Added
+- Some documentation regarding controller specs
+- Middleware specs
+
+### Fixed
+- Error returns white page
