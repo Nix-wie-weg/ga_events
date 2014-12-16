@@ -77,3 +77,8 @@ class GaEvents.GoogleAnalyticsAdapter
 
 class GaEvents.NullAdapter
   push: (obj) -> console.log obj if console?
+
+class GaEvents.TestAdapter
+  push: (obj) ->
+    window.events = [] unless window.events?
+    window.events.push obj
