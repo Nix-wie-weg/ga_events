@@ -11,7 +11,7 @@ module GaEvents
     end
 
     def self.from_string(str)
-      new(*str.split('|'))
+      new(*str.split('|').take(4))
     end
   end
 end
