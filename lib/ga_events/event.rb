@@ -7,11 +7,11 @@ module GaEvents
     end
 
     def to_s
-      [category, action, label, value].join('|')
+      ([category, action, label].map { |e| URI.encode(e) } + [value]).join('|')
     end
 
     def self.from_string(str)
-      new(*str.split('|'))
+      new(*str.split('|').map { |e| URI.decode(e) })
     end
   end
 end
