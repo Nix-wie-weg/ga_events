@@ -11,11 +11,15 @@ class GaEvents.Event
   @html_key: "ga-events"
   klass: @
 
-  # Decompose a dom-string (ruby side) into an event object.
+  # Decompose a event-string (ruby side) into an event object.
   @from_string: (string) ->
     $.map string.split("$"), (part) =>
       [category, action, label, value] = part.split "|"
       new @(category, action, label, value)
+
+  @from_dom: ->
+    dom_events = $("div[data-#{@html_key}]").data @html_key
+    @from_string dom_events if dom_events?
 
   # Events should not be send to an adapter unless the DOM has finished loading.
   @flush: ->
@@ -50,8 +54,8 @@ class GaEvents.Event
       xhr_events = xhr.getResponseHeader @header_key
       @from_string xhr_events if xhr_events?
 
-    dom_events = $("div[data-#{@html_key}]").data @html_key
-    @from_string dom_events if dom_events?
+    @from_dom()
+    $(document).on "turbolinks:load", => @from_dom()
 
 class GaEvents.GoogleTagManagerAdapter
   constructor: (@event = "ga_event") ->

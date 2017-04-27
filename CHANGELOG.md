@@ -15,3 +15,13 @@ The format suggested at http://keepachangelog.com/ is used.
 
 ### Fixed
 - Error returns white page
+
+## 1.2.0 - 2014-12-18
+
+### Added
+- A Test Adapter that pushes events to a `window.events` array.
+
+## 1.3.0 - 2017-04-27
+
+### Added
+- Support for turbolinks.
