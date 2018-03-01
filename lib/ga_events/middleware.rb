@@ -50,6 +50,9 @@ module GaEvents
       flash_hash = env[ActionDispatch::Flash::KEY]
       flash_hash ||= ActionDispatch::Flash::FlashHash.new
       flash_hash['ga_events'] = serialized_data
+      # Discard the flash after the action completes.
+      flash_hash.discard('ga_events')
+
       env[ActionDispatch::Flash::KEY] = flash_hash
     end
 
