@@ -11,12 +11,12 @@ module GaEvents
       status, headers, response = @app.call(env)
 
       headers = Rack::Utils::HeaderHash.new(headers)
-      if GaEvents::List.present?
+      if GaEvents::List.present?        
         request = Rack::Request.new(env)
 
         # Can outgrow, headers might get too big
         serialized = GaEvents::List.to_s
-        if request.xhr?
+        if request.xhr? || request.env['HTTP_TURBOLINKS_REFERRER']
           # AJAX request
           headers['X-GA-Events'] = serialized
 

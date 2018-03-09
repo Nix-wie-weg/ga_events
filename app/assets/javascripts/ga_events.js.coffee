@@ -50,12 +50,17 @@ class GaEvents.Event
     @may_flush = true
     @flush()
 
-    $(document).ajaxComplete (event, xhr) =>
+    process_xhr = (xhr) =>
       xhr_events = xhr.getResponseHeader @header_key
       @from_string xhr_events if xhr_events?
 
+    $(document).ajaxComplete((_, xhr) -> process_xhr(xhr))
+    $(document).on "turbolinks:request-end", (event) ->
+      xhr = event.originalEvent.data.xhr
+      process_xhr(xhr)
+
     @from_dom()
-    $(document).on "turbolinks:load", => @from_dom()
+
 
 class GaEvents.GoogleTagManagerAdapter
   constructor: (@event = "ga_event") ->
