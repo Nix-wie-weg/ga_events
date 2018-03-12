@@ -16,11 +16,11 @@ module GaEvents
 
         # Can outgrow, headers might get too big
         serialized = GaEvents::List.to_s
-        if request.xhr?
+        if xhr_or_turbolinks?(request)
           # AJAX request
           headers['X-GA-Events'] = serialized
 
-        elsif (300..399).include?(status)
+        elsif redirect?(status)
           # 30x/redirect? Then add event list to flash to survive the redirect.
           add_events_to_flash(env, serialized)
 
@@ -73,6 +73,14 @@ module GaEvents
       !Rack::Utils::STATUS_WITH_NO_ENTITY_BODY.include?(status.to_i) &&
         headers.key?('Content-Type') &&
         headers['Content-Type'].include?('text/html')
+    end
+
+    def redirect?(status)
+      (300..399).cover?(status)
+    end
+
+    def xhr_or_turbolinks?(request)
+      request.xhr? || request.env['HTTP_TURBOLINKS_REFERRER']
     end
   end
 end

@@ -1,5 +1,5 @@
 module GaEvents
-  class Event < Struct.new(:category, :action, :label, :value)
+  Event = Struct.new(:category, :action, :label, :value) do
     # Default values are set here, see README.md for details.
     def initialize(category = '-', action = '-', label = '-', value = 1)
       super

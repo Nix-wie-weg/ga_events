@@ -25,3 +25,11 @@ The format suggested at http://keepachangelog.com/ is used.
 
 ### Added
 - Support for turbolinks.
+
+## 1.4.0 - 2018-03-09
+
+### Fixed
+- Fixed turbolinks events. To prevent older events the be processed again after page
+  changes orchestrated by turbolinks, events are no longer processed via the
+  injected DOM node. (Because the node would be cached and the event already
+  processed.) Instead the the header-strategy is being used.
