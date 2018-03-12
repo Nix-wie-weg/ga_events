@@ -19,8 +19,8 @@ Gem::Specification.new do |gem|
   gem.homepage      = 'https://github.com/Nix-wie-weg/ga_events'
 
   gem.files         = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
-  gem.executables   = gem.files.grep(/^bin\//).map { |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(/^(test|spec|features)\//)
+  gem.executables   = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
+  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = 'ga_events'
   gem.require_paths = ['lib']
   gem.version       = GaEvents::VERSION
