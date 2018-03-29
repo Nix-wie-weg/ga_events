@@ -43,15 +43,16 @@ module GaEvents
       # Fix for Rails 4
       flash &&= flash['flashes'] if Rails::VERSION::MAJOR > 3
 
-      GaEvents::List.init(flash && flash['ga_events'])
+      # We need to "use" the key, so it does not remain on any requests after
+      # redirects:
+      # https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_dispatch/middleware/flash.rb#L220
+      GaEvents::List.init(flash && flash.delete('ga_events'))
     end
 
     def add_events_to_flash env, serialized_data
       flash_hash = env[ActionDispatch::Flash::KEY]
       flash_hash ||= ActionDispatch::Flash::FlashHash.new
       flash_hash['ga_events'] = serialized_data
-      # Discard the flash after the action completes.
-      flash_hash.discard('ga_events')
 
       env[ActionDispatch::Flash::KEY] = flash_hash
     end
