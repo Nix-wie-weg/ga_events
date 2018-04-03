@@ -33,3 +33,9 @@ The format suggested at http://keepachangelog.com/ is used.
   changes orchestrated by turbolinks, events are no longer processed via the
   injected DOM node. (Because the node would be cached and the event already
   processed.) Instead the the header-strategy is being used.
+
+## 1.4.1 - 2018-04-03
+
+### Fixed
+- Ensure category, action and label do not include any umlauts or ß chars
+- Fixed an error where events are remaining after a redirect

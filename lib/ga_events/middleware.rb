@@ -43,8 +43,9 @@ module GaEvents
       # Fix for Rails 4
       flash &&= flash['flashes'] if Rails::VERSION::MAJOR > 3
 
-      # We need to "use" the key, so it does not remain on any requests after
-      # redirects:
+      # The key has to be removed from the flash here to ensure it does not
+      # remain after the finished redirect. This copies the behaviour of the
+      # "#use" and "#sweep" methods of the rails flash middleware:
       # https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_dispatch/middleware/flash.rb#L220
       GaEvents::List.init(flash && flash.delete('ga_events'))
     end
