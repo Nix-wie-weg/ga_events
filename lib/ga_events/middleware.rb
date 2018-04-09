@@ -43,15 +43,17 @@ module GaEvents
       # Fix for Rails 4
       flash &&= flash['flashes'] if Rails::VERSION::MAJOR > 3
 
-      GaEvents::List.init(flash && flash['ga_events'])
+      # The key has to be removed from the flash here to ensure it does not
+      # remain after the finished redirect. This copies the behaviour of the
+      # "#use" and "#sweep" methods of the rails flash middleware:
+      # https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_dispatch/middleware/flash.rb#L220
+      GaEvents::List.init(flash && flash.delete('ga_events'))
     end
 
     def add_events_to_flash env, serialized_data
       flash_hash = env[ActionDispatch::Flash::KEY]
       flash_hash ||= ActionDispatch::Flash::FlashHash.new
       flash_hash['ga_events'] = serialized_data
-      # Discard the flash after the action completes.
-      flash_hash.discard('ga_events')
 
       env[ActionDispatch::Flash::KEY] = flash_hash
     end

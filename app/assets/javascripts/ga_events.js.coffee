@@ -32,11 +32,21 @@ class GaEvents.Event
     @klass.list.push @
     @klass.flush()
 
+  escape: (str) ->
+    return unless str
+    "#{str}".replace(/ä/g, "ae")
+            .replace(/ö/g, "oe")
+            .replace(/ü/g, "ue")
+            .replace(/Ä/g, "Ae")
+            .replace(/Ö/g, "Oe")
+            .replace(/Ü/g, "Ue")
+            .replace(/ß/g, "ss")
+
   to_hash: ->
-    # Category, action and label must be of type string.
-    action: "#{@action}"
-    category: "#{@category}"
-    label: "#{@label}"
+    # Category, action and label must be escaped and of type string.
+    action: @escape(@action)
+    category: @escape(@category)
+    label: @escape(@label)
     # Value has to be a positive integer or defaults to 1
     value: @to_positive_integer(@value)
 
