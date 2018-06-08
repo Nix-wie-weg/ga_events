@@ -55,5 +55,23 @@ describe GaEvents::Middleware do
         end
       end
     end
+
+    context 'encodes pipes in event correctly' do
+      let(:app) do
+        proc do |_|
+          GaEvents::Event.new('category', 'action', 'we|love|pipes')
+          [200, { 'Content-Type' => 'text/html' }, response_body]
+        end
+      end
+      let(:response_body) { 'something awesome!</body>' }
+      let(:response) { request.get('/') }
+
+      it 'does not raise an exception' do
+        expect(response.body).to eq(
+          'something awesome!' \
+          "<div data-ga-events='category|action|we%7Clove%7Cpipes|1'></div></body>"
+        )
+      end
+    end
   end
 end

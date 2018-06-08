@@ -14,7 +14,8 @@ class GaEvents.Event
   # Decompose a event-string (ruby side) into an event object.
   @from_string: (string) ->
     $.map string.split("$"), (part) =>
-      [category, action, label, value] = part.split "|"
+      [category, action, label, value] =
+        $.map part.split("|"), (val) -> decodeURIComponent(val)
       new @(category, action, label, value)
 
   @from_dom: ->
