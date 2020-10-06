@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # NOTE: Collecting the events is thread-safe, but will cause problems in an
 #       asynchronous/evented environment.
 

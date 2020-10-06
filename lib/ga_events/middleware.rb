@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rack/utils'
 
 module GaEvents
@@ -35,33 +37,29 @@ module GaEvents
     private
 
     def init_event_list(env)
-      # Handle events stored in flash
-      # Parts borrowed from Rails:
-      # https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_dispatch/middleware/flash.rb
-      flash = env['rack.session'] && env['rack.session']['flash']
-
-      # Fix for Rails 4
-      flash &&= flash['flashes'] if Rails::VERSION::MAJOR > 3
+      flash = env['rack.session'] && env['rack.session']['flash'] &&
+              env['rack.session']['flash']['flashes']
 
       # The key has to be removed from the flash here to ensure it does not
       # remain after the finished redirect. This copies the behaviour of the
       # "#use" and "#sweep" methods of the rails flash middleware:
       # https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_dispatch/middleware/flash.rb#L220
-      GaEvents::List.init(flash && flash.delete('ga_events'))
+      GaEvents::List.init(flash&.delete('ga_events'))
     end
 
     def add_events_to_flash env, serialized_data
-      flash_hash = env[ActionDispatch::Flash::KEY]
-      flash_hash ||= ActionDispatch::Flash::FlashHash.new
-      flash_hash['ga_events'] = serialized_data
+      flash = env['rack.session'] && env['rack.session']['flash'] &&
+              env['rack.session']['flash']['flashes']
 
-      env[ActionDispatch::Flash::KEY] = flash_hash
+      return unless flash
+
+      flash['ga_events'] = serialized_data
     end
 
-    def normalize_response(r)
-      r = r.body if r.respond_to?(:body)
-      r = r.join if r.respond_to?(:join)
-      r
+    def normalize_response(response)
+      response = response.body if response.respond_to?(:body)
+      response = response.join if response.respond_to?(:join)
+      response
     end
 
     def inject_div(response, serialized_data)
