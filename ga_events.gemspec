@@ -1,5 +1,6 @@
-# encoding: utf-8
-require File.expand_path('../lib/ga_events/version', __FILE__)
+# frozen_string_literal: true
+
+require File.expand_path('lib/ga_events/version', __dir__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ['Florian Dütsch', 'Sven Winkler']
@@ -25,5 +26,5 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = GaEvents::VERSION
 
-  gem.add_dependency 'rails', '>= 3.1'
+  gem.add_dependency 'rails', '>= 4.2'
 end

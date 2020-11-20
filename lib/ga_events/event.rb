@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GaEvents
   Event = Struct.new(:category, :action, :label, :value) do
     # Default values are set here, see README.md for details.

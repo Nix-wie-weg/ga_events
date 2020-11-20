@@ -1,13 +1,8 @@
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: 2.3
   Exclude:
     - 'vendor/bundle/**/*'
   DisplayCopNames: true
-Rails:
-  Enabled: true
-Style/Encoding:
-  EnforcedStyle: when_needed
-  Enabled: true
 Style/AsciiComments:
   Enabled: false
 Style/Documentation:
@@ -16,13 +11,13 @@ Metrics/MethodLength:
   Enabled: false
 Style/MethodDefParentheses:
   Enabled: false
-Style/MultilineOperationIndentation:
+Layout/MultilineOperationIndentation:
   EnforcedStyle: aligned
-Style/MultilineMethodCallIndentation:
+Layout/MultilineMethodCallIndentation:
   EnforcedStyle: indented
-Style/MultilineMethodDefinitionBraceLayout:
+Layout/MultilineMethodDefinitionBraceLayout:
   Enabled: true
-Style/MultilineHashBraceLayout:
+Layout/MultilineHashBraceLayout:
   Enabled: true
 Style/SignalException:
   Enabled: false
@@ -37,4 +32,6 @@ Style/MultilineBlockChain:
 Style/CommentAnnotation:
   Enabled: false
 Style/GuardClause:
+  Enabled: false
+Metrics/BlockLength:
   Enabled: false

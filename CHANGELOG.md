@@ -39,3 +39,12 @@ The format suggested at http://keepachangelog.com/ is used.
 ### Fixed
 - Ensure category, action and label do not include any umlauts or ß chars
 - Fixed an error where events are remaining after a redirect
+
+## 2.0.0 - 2018-04-03
+
+### Removed
+- Support for rubies < 2.3
+- Support for rails < 4.2
+
+### Added
+- Compatibility for Rails 5
