@@ -9,6 +9,8 @@ class GaEvents.Event
   @may_flush: false
   @header_key: "X-GA-Events"
   @html_key: "ga-events"
+  @require_user_consent: false
+  @user_consent_given: false
   klass: @
 
   # Decompose a event-string (ruby side) into an event object.
@@ -23,6 +25,8 @@ class GaEvents.Event
 
   # Events should not be send to an adapter unless the DOM has finished loading.
   @flush: ->
+    return if @require_user_consent && !@user_consent_given
+
     if @list.length > 0 and @may_flush
       $.map @list, (event) -> event.push_to_adapter()
       @list = []
