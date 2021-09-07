@@ -70,6 +70,15 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
+### Optional consent settings
+
+Events are flushed immediatly by default. If you need to wait for user consent
+you can set `GaEvents.Event.require_user_consent = true`.
+
+With `require_user_consent` enabled all events are buffered until
+`GaEvents.Event.user_consent_given = true` is set. Events are flushed as soon
+as `GaEvents.Event.flush()` is called.
+
 ### Testing
 
 For your testing pleasure we included `NullAdapter`.
