@@ -13,7 +13,7 @@ class GaEvents.Event
   @user_consent_given: false
   klass: @
 
-  # Decompose a event-string (ruby side) into an event object.
+  # Decompose an event-string (ruby side) into an event object.
   @from_string: (string) ->
     $.map string.split("$"), (part) =>
       [category, action, label, value] = part.split "|"
@@ -23,7 +23,7 @@ class GaEvents.Event
     dom_events = $("div[data-#{@html_key}]").data @html_key
     @from_string dom_events if dom_events?
 
-  # Events should not be send to an adapter unless the DOM has finished loading.
+  # Events should not be sent to an adapter unless the DOM has finished loading.
   @flush: ->
     return if @require_user_consent && !@user_consent_given
 
