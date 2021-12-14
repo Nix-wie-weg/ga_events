@@ -87,15 +87,15 @@ class GaEvents.GoogleUniversalAnalyticsAdapter
   constructor: (@method_call_name = "send", tracker_name) ->
     @method_call_name = "#{tracker_name}.#{@method_call_name}" if tracker_name
 
-  push: (h) ->
-    window.ga @method_call_name, "event", h.category, h.action, h.label,
-              h.value, {"nonInteraction": true}
+  push: (data) ->
+    window.ga @method_call_name, "event", data.category, data.action,
+              data.label, data.value, {"nonInteraction": true}
 
 class GaEvents.GoogleAnalyticsAdapter
   # Send events non_interactive => no influence on bounce rates
-  push: (h) ->
+  push: (data) ->
     window._gaq.push(
-      ["_trackEvent", h.category, h.action, h.label, h.value, true]
+      ["_trackEvent", data.category, data.action, data.label, data.value, true]
     )
 
 class GaEvents.NullAdapter
