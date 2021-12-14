@@ -40,7 +40,7 @@ The format suggested at http://keepachangelog.com/ is used.
 - Ensure category, action and label do not include any umlauts or ß chars
 - Fixed an error where events are remaining after a redirect
 
-## 2.0.0 - 2018-04-03
+## 2.0.0 - 2020-11-20
 
 ### Removed
 - Support for rubies < 2.3
@@ -48,3 +48,8 @@ The format suggested at http://keepachangelog.com/ is used.
 
 ### Added
 - Compatibility for Rails 5
+
+## 2.1.0 - 2021-09-07
+
+### Added
+- Optional user consent flag to prevent event flushing until consent was given
