@@ -84,12 +84,36 @@ class GaEvents.GoogleTagManagerAdapter
     window.dataLayer.push data
 
 class GaEvents.GoogleUniversalAnalyticsAdapter
+  @script_version = "analytics.js"
+  @custom_dataLayer_push_method_name = false
+
   constructor: (@method_call_name = "send", tracker_name) ->
     @method_call_name = "#{tracker_name}.#{@method_call_name}" if tracker_name
 
   push: (data) ->
-    window.ga @method_call_name, "event", data.category, data.action,
-              data.label, data.value, {"nonInteraction": true}
+    gtag_version = @script_version == "gtag.js"
+    push_method_name =
+      if @custom_dataLayer_push_method_name
+        @custom_dataLayer_push_method_name
+      else if gtag_version
+        "gtag"
+      else
+        "ga"
+
+    if gtag_version
+      window[push_method_name](
+        "event", data.action, {
+        "event_category": data.category,
+        "event_label": data.label,
+        "value": data.value,
+        "non_interaction": true
+      });
+    else
+      window[push_method_name](
+        @method_call_name, "event",
+        data.category, data.action, data.label, data.value,
+        {"nonInteraction": true}
+      )
 
 class GaEvents.GoogleAnalyticsAdapter
   # Send events non_interactive => no influence on bounce rates

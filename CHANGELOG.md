@@ -53,3 +53,13 @@ The format suggested at http://keepachangelog.com/ is used.
 
 ### Added
 - Optional user consent flag to prevent event flushing until consent was given
+
+<!-- TODO: Final Date -->
+## 2.2.0 - 2021-12-15
+
+### Added
+- Universal Analytics Adapter can be configured to use `gtag.js` instead of
+  `analytics.js` event syntax
+- Universal Analytics Adapter can be configured to use a custom name for the
+  `window` method pushing to `dataLayer` (defaults to `window.ga()`
+  for `analytics.js` and `window.gtag()` for `gtag.js`)
