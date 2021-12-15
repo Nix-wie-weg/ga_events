@@ -60,6 +60,9 @@ The format suggested at http://keepachangelog.com/ is used.
 ### Added
 - Universal Analytics Adapter can be configured to use `gtag.js` instead of
   `analytics.js` event syntax
+  - [Breaking] Custom method and tracker names behave differently for
+    `analytics.js` and `gtag.js`. Thus they are now no longer set directly in
+    the constructor.
 - Universal Analytics Adapter can be configured to use a custom name for the
-  `window` method pushing to `dataLayer` (defaults to `window.ga()`
-  for `analytics.js` and `window.gtag()` for `gtag.js`)
+  analytics object (defaults to `window.ga()` for `analytics.js` and
+  `window.gtag()` for `gtag.js`)

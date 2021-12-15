@@ -43,7 +43,9 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
-### Google Universal Analytics (analytics.js)
+### Google Universal Analytics
+
+#### analytics.js
 
 ```javascript
 GaEvents.Event.adapter = function() {
@@ -51,11 +53,51 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
-Optionally you can specify a custom method to call and a custom tracker name:
+Optionally you can specify a custom send method to call and a custom tracker
+name:
 
 ```javascript
 GaEvents.Event.adapter = function() {
-  return new GaEvents.GoogleUniversalAnalyticsAdapter("sendNow", "customTracker");
+  var adapter = new GaEvents.GoogleUniversalAnalyticsAdapter();
+  adapter.send_method_name = "sendNow";
+  adapter.tracker_name = "customTracker";
+  return adapter;
+}
+```
+
+#### gtag.js
+
+```javascript
+GaEvents.Event.adapter = function() {
+  var adapter = new GaEvents.GoogleUniversalAnalyticsAdapter();
+  adapter.script_version = "gtag.js";
+  return adapter;
+}
+```
+
+Optionally you can specify a custom tracker GA_MEASUREMENT_ID where you want
+your events to be sent to:
+
+```javascript
+GaEvents.Event.adapter = function() {
+  var adapter = new GaEvents.GoogleUniversalAnalyticsAdapter();
+  adapter.send_method_name = "sendNow";
+  adapter.tracker_name = "GA_MEASUREMENT_ID";
+  return adapter;
+}
+```
+
+#### Optional custom object name
+
+The default names of the analytics object are `window.ga()` for `analytics.js`
+and `window.gtag()` for `gtag.js`. If you have renamed your analytics object,
+you can specify the name:
+
+```javascript
+GaEvents.Event.adapter = function() {
+  var adapter = new GaEvents.GoogleUniversalAnalyticsAdapter();
+  adapter.custom_analytics_object_name = "analytics"; // calls window.analytics()
+  return adapter;
 }
 ```
 
