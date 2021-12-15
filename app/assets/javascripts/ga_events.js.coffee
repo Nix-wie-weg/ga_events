@@ -101,12 +101,14 @@ class GaEvents.GoogleUniversalAnalyticsAdapter
 
     if gtag_version
       window[push_method_name](
-        "event", data.action, {
-        "event_category": data.category,
-        "event_label": data.label,
-        "value": data.value,
-        "non_interaction": true
-      });
+        "event", data.action,
+        {
+          "event_category": data.category,
+          "event_label": data.label,
+          "value": data.value,
+          "non_interaction": true
+        }
+      )
     else
       window[push_method_name](
         @method_call_name, "event",
