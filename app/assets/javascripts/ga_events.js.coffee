@@ -57,7 +57,6 @@ class GaEvents.Event
   to_positive_integer: (n) ->
     if isFinite(n) and parseInt(n) >= 0 then parseInt n else 1
 
-  # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
   push_to_adapter: -> @klass.adapter().push @to_hash()
 
   jQuery =>
@@ -116,6 +115,7 @@ class GaEvents.GoogleUniversalAnalyticsAdapter
       )
 
 class GaEvents.GoogleAnalyticsAdapter
+  # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
   # Send events non_interactive => no influence on bounce rates
   push: (data) ->
     window._gaq.push(
