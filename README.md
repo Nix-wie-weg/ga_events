@@ -203,5 +203,7 @@ Yes please! Use pull requests.
 ## More docs and tools
 
 * [Google Analytics: Event Tracking](https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide)
+* [Google Universal Analytics: Event Tracking (analytics.js)](https://developers.google.com/analytics/devguides/collection/analyticsjs/events)
+* [Google Universal Analytics: Event Tracking (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/events)
 * [Google Tag Manager: Custom Events](http://support.google.com/tagmanager/answer/2574372#GoogleAnalytics)
-* [Chrome Web Store: Event Tracking Tracker](https://chrome.google.com/webstore/detail/event-tracking-tracker/npjkfahkbgoagkfpkidpjdemjjmmbcim)
+* [Chrome Web Store: Tag Assistant](https://chrome.google.com/webstore/detail/tag-assistant-legacy-by-g/kejbdjndbnbjgmefkgdddjlbokphdefk)
