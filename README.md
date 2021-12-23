@@ -58,10 +58,9 @@ name:
 
 ```javascript
 GaEvents.Event.adapter = function() {
-  var adapter = new GaEvents.GoogleUniversalAnalyticsAdapter();
-  adapter.send_method_name = "sendNow";
-  adapter.tracker_name = "customTracker";
-  return adapter;
+  return new GaEvents.GoogleUniversalAnalyticsAdapter(
+    {send_method_name: "sendNow", tracker_name: "customTracker"}
+  );
 }
 ```
 
@@ -69,9 +68,9 @@ GaEvents.Event.adapter = function() {
 
 ```javascript
 GaEvents.Event.adapter = function() {
-  var adapter = new GaEvents.GoogleUniversalAnalyticsAdapter();
-  adapter.script_version = "gtag.js";
-  return adapter;
+  return new GaEvents.GoogleUniversalAnalyticsAdapter(
+    {use_gtag_variant: true}
+  );
 }
 ```
 
@@ -80,10 +79,9 @@ your events to be sent to:
 
 ```javascript
 GaEvents.Event.adapter = function() {
-  var adapter = new GaEvents.GoogleUniversalAnalyticsAdapter();
-  adapter.send_method_name = "sendNow";
-  adapter.tracker_name = "GA_MEASUREMENT_ID";
-  return adapter;
+  return new GaEvents.GoogleUniversalAnalyticsAdapter(
+    {use_gtag_variant: true, tracker_name: "GA_MEASUREMENT_ID"}
+  );
 }
 ```
 
@@ -95,9 +93,9 @@ you can specify the name:
 
 ```javascript
 GaEvents.Event.adapter = function() {
-  var adapter = new GaEvents.GoogleUniversalAnalyticsAdapter();
-  adapter.custom_analytics_object_name = "analytics"; // calls window.analytics()
-  return adapter;
+  return new GaEvents.GoogleUniversalAnalyticsAdapter(
+    {analytics_object_name: "analytics"} // calls window.analytics()
+  );
 }
 ```
 

@@ -83,24 +83,19 @@ class GaEvents.GoogleTagManagerAdapter
     window.dataLayer.push data
 
 class GaEvents.GoogleUniversalAnalyticsAdapter
-  @script_version = "analytics.js"
-  @custom_analytics_object_name = false
-  @send_method_name = "send" # only relevant for "analytics.js"
+  constructor: (options) ->
+    @use_gtag_variant = options?.use_gtag_variant || false
+    @analytics_object_name =
+      options?.analytics_object_name ||
+      (if @use_gtag_variant then "gtag" else "ga")
 
-  # https://developers.google.com/analytics/devguides/migration/ua/analyticsjs-to-gtagjs#measure_pageviews_with_specified_trackers
-  @tracker_name = false
+    # Only relevant for analytics.js
+    @send_method_name = options?.send_method_name || "send"
 
+    # https://developers.google.com/analytics/devguides/migration/ua/analyticsjs-to-gtagjs#measure_pageviews_with_specified_trackers
+    @tracker_name = options?.tracker_name || false
   push: (data) ->
-    gtag_version = @script_version == "gtag.js"
-    push_method_name =
-      if @custom_analytics_object_name
-        @custom_analytics_object_name
-      else if gtag_version
-        "gtag"
-      else
-        "ga"
-
-    if gtag_version
+    if @use_gtag_variant
       options = {
         "event_category": data.category,
         "event_label": data.label,
@@ -108,14 +103,14 @@ class GaEvents.GoogleUniversalAnalyticsAdapter
         "non_interaction": true
       }
       options["send_to"] = @tracker_name if @tracker_name
-      window[push_method_name]("event", data.action, options)
+      window[@analytics_object_name]("event", data.action, options)
     else
       method_call_name =
         if @tracker_name
           "#{@tracker_name}.#{@send_method_name}"
         else
           @send_method_name
-      window[push_method_name](
+      window[@analytics_object_name](
         method_call_name, "event",
         data.category, data.action, data.label, data.value,
         {"nonInteraction": true}
