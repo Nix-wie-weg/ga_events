@@ -40,7 +40,7 @@ The format suggested at http://keepachangelog.com/ is used.
 - Ensure category, action and label do not include any umlauts or ß chars
 - Fixed an error where events are remaining after a redirect
 
-## 2.0.0 - 2018-04-03
+## 2.0.0 - 2020-11-20
 
 ### Removed
 - Support for rubies < 2.3
@@ -48,3 +48,19 @@ The format suggested at http://keepachangelog.com/ is used.
 
 ### Added
 - Compatibility for Rails 5
+
+## 2.1.0 - 2021-09-07
+
+### Added
+- Optional user consent flag to prevent event flushing until consent was given
+
+## 3.0.0 - 2022-01-10
+
+### Added
+- Universal Analytics Adapter can be configured to use `gtag.js` instead of
+  `analytics.js` event syntax
+  - [Breaking] The constructor interface has changed due to more configuration
+    options that differ between `analytics.js` and `gtag.js`.
+- Universal Analytics Adapter can be configured to use a custom name for the
+  analytics object (defaults to `window.ga()` for `analytics.js` and
+  `window.gtag()` for `gtag.js`)

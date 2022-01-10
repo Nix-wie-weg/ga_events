@@ -43,7 +43,9 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
-### Google Universal Analytics (analytics.js)
+### Google Universal Analytics
+
+#### analytics.js
 
 ```javascript
 GaEvents.Event.adapter = function() {
@@ -51,11 +53,49 @@ GaEvents.Event.adapter = function() {
 }
 ```
 
-Optionally you can specify a custom method to call and a custom tracker name:
+Optionally you can specify a custom send method to call and a custom tracker
+name:
 
 ```javascript
 GaEvents.Event.adapter = function() {
-  return new GaEvents.GoogleUniversalAnalyticsAdapter("sendNow", "customTracker");
+  return new GaEvents.GoogleUniversalAnalyticsAdapter(
+    {send_method_name: "sendNow", tracker_name: "customTracker"}
+  );
+}
+```
+
+#### gtag.js
+
+```javascript
+GaEvents.Event.adapter = function() {
+  return new GaEvents.GoogleUniversalAnalyticsAdapter(
+    {use_gtag_variant: true}
+  );
+}
+```
+
+Optionally you can specify a custom tracker GA_MEASUREMENT_ID where you want
+your events to be sent to:
+
+```javascript
+GaEvents.Event.adapter = function() {
+  return new GaEvents.GoogleUniversalAnalyticsAdapter(
+    {use_gtag_variant: true, tracker_name: "GA_MEASUREMENT_ID"}
+  );
+}
+```
+
+#### Optional custom object name
+
+The default names of the analytics object are `window.ga()` for `analytics.js`
+and `window.gtag()` for `gtag.js`. If you have renamed your analytics object,
+you can specify the name:
+
+```javascript
+GaEvents.Event.adapter = function() {
+  return new GaEvents.GoogleUniversalAnalyticsAdapter(
+    {analytics_object_name: "analytics"} // calls window.analytics()
+  );
 }
 ```
 
@@ -161,5 +201,7 @@ Yes please! Use pull requests.
 ## More docs and tools
 
 * [Google Analytics: Event Tracking](https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide)
+* [Google Universal Analytics: Event Tracking (analytics.js)](https://developers.google.com/analytics/devguides/collection/analyticsjs/events)
+* [Google Universal Analytics: Event Tracking (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/events)
 * [Google Tag Manager: Custom Events](http://support.google.com/tagmanager/answer/2574372#GoogleAnalytics)
-* [Chrome Web Store: Event Tracking Tracker](https://chrome.google.com/webstore/detail/event-tracking-tracker/npjkfahkbgoagkfpkidpjdemjjmmbcim)
+* [Chrome Web Store: Tag Assistant](https://chrome.google.com/webstore/detail/tag-assistant-legacy-by-g/kejbdjndbnbjgmefkgdddjlbokphdefk)

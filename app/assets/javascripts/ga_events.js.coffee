@@ -13,7 +13,7 @@ class GaEvents.Event
   @user_consent_given: false
   klass: @
 
-  # Decompose a event-string (ruby side) into an event object.
+  # Decompose an event-string (ruby side) into an event object.
   @from_string: (string) ->
     $.map string.split("$"), (part) =>
       [category, action, label, value] = part.split "|"
@@ -23,7 +23,7 @@ class GaEvents.Event
     dom_events = $("div[data-#{@html_key}]").data @html_key
     @from_string dom_events if dom_events?
 
-  # Events should not be send to an adapter unless the DOM has finished loading.
+  # Events should not be sent to an adapter unless the DOM has finished loading.
   @flush: ->
     return if @require_user_consent && !@user_consent_given
 
@@ -57,7 +57,6 @@ class GaEvents.Event
   to_positive_integer: (n) ->
     if isFinite(n) and parseInt(n) >= 0 then parseInt n else 1
 
-  # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
   push_to_adapter: -> @klass.adapter().push @to_hash()
 
   jQuery =>
@@ -84,18 +83,45 @@ class GaEvents.GoogleTagManagerAdapter
     window.dataLayer.push data
 
 class GaEvents.GoogleUniversalAnalyticsAdapter
-  constructor: (@method_call_name = "send", tracker_name) ->
-    @method_call_name = "#{tracker_name}.#{@method_call_name}" if tracker_name
+  constructor: (options) ->
+    @use_gtag_variant = options?.use_gtag_variant || false
+    @analytics_object_name =
+      options?.analytics_object_name ||
+      (if @use_gtag_variant then "gtag" else "ga")
 
-  push: (h) ->
-    window.ga @method_call_name, "event", h.category, h.action, h.label,
-              h.value, {"nonInteraction": true}
+    # Only relevant for analytics.js
+    @send_method_name = options?.send_method_name || "send"
+
+    # https://developers.google.com/analytics/devguides/migration/ua/analyticsjs-to-gtagjs#measure_pageviews_with_specified_trackers
+    @tracker_name = options?.tracker_name || false
+  push: (data) ->
+    if @use_gtag_variant
+      options = {
+        "event_category": data.category,
+        "event_label": data.label,
+        "value": data.value,
+        "non_interaction": true
+      }
+      options["send_to"] = @tracker_name if @tracker_name
+      window[@analytics_object_name]("event", data.action, options)
+    else
+      method_call_name =
+        if @tracker_name
+          "#{@tracker_name}.#{@send_method_name}"
+        else
+          @send_method_name
+      window[@analytics_object_name](
+        method_call_name, "event",
+        data.category, data.action, data.label, data.value,
+        {"nonInteraction": true}
+      )
 
 class GaEvents.GoogleAnalyticsAdapter
+  # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
   # Send events non_interactive => no influence on bounce rates
-  push: (h) ->
+  push: (data) ->
     window._gaq.push(
-      ["_trackEvent", h.category, h.action, h.label, h.value, true]
+      ["_trackEvent", data.category, data.action, data.label, data.value, true]
     )
 
 class GaEvents.NullAdapter
