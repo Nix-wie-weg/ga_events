@@ -54,8 +54,7 @@ The format suggested at http://keepachangelog.com/ is used.
 ### Added
 - Optional user consent flag to prevent event flushing until consent was given
 
-<!-- TODO: Final Date -->
-## 3.0.0 - 2021-12-15
+## 3.0.0 - 2022-01-10
 
 ### Added
 - Universal Analytics Adapter can be configured to use `gtag.js` instead of
