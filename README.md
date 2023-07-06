@@ -7,13 +7,13 @@ app.
 A rack middleware is automatically inserted into the stack. It transports
 the event data to the client. Normal requests get a DIV injected, Ajax requests
 get a data-pounded custom HTTP header appended. In case of redirects the data
-survives inside Rails' flash.
+survives inside of rack a rack session.
 The asset pipeline-ready CoffeeScript extracts this data on the client-side and
-pushes it to Google Analytics via ga.js or Google Tag Manager.
+pushes it to Google Analytics via gtag.js or Google Tag Manager.
 
 ## Dependencies
 
-* Ruby >= 2.3
+* Ruby >= 3.2
 * Rails 4.2 onwards
 * jQuery
 
@@ -35,42 +35,11 @@ Add to the top of your `application.js` (but after requiring jQuery):
 
 After requiring `ga_events.js`, you have to choose an adapter.
 
-### Google Analytics (ga.js)
+### Google Analytics 4 (gtag.js)
 
 ```javascript
 GaEvents.Event.adapter = function() {
-  return new GaEvents.GoogleAnalyticsAdapter();
-}
-```
-
-### Google Universal Analytics
-
-#### analytics.js
-
-```javascript
-GaEvents.Event.adapter = function() {
-  return new GaEvents.GoogleUniversalAnalyticsAdapter();
-}
-```
-
-Optionally you can specify a custom send method to call and a custom tracker
-name:
-
-```javascript
-GaEvents.Event.adapter = function() {
-  return new GaEvents.GoogleUniversalAnalyticsAdapter(
-    {send_method_name: "sendNow", tracker_name: "customTracker"}
-  );
-}
-```
-
-#### gtag.js
-
-```javascript
-GaEvents.Event.adapter = function() {
-  return new GaEvents.GoogleUniversalAnalyticsAdapter(
-    {use_gtag_variant: true}
-  );
+  return new GaEvents.GTagAdapter();
 }
 ```
 
@@ -79,21 +48,20 @@ your events to be sent to:
 
 ```javascript
 GaEvents.Event.adapter = function() {
-  return new GaEvents.GoogleUniversalAnalyticsAdapter(
-    {use_gtag_variant: true, tracker_name: "GA_MEASUREMENT_ID"}
+  return new GaEvents.GTagAdapter(
+    {tracker_name: "GA_MEASUREMENT_ID"}
   );
 }
 ```
 
 #### Optional custom object name
 
-The default names of the analytics object are `window.ga()` for `analytics.js`
-and `window.gtag()` for `gtag.js`. If you have renamed your analytics object,
-you can specify the name:
+The default names of the analytics object for `gtag.js` is  `window.gtag()`. If
+you have renamed your analytics object, you can specify the name:
 
 ```javascript
 GaEvents.Event.adapter = function() {
-  return new GaEvents.GoogleUniversalAnalyticsAdapter(
+  return new GaEvents.GTagAdapter(
     {analytics_object_name: "analytics"} // calls window.analytics()
   );
 }
@@ -138,23 +106,17 @@ HTTP header is added to the response.
 You can create a new event like this:
 
 ```ruby
-GaEvents::Event.new(category, action, label, value)
+GaEvents::Event.new('example_event', { extra: 'dimension' })
 ```
 
 On the client-side there is a similar interface to GaEvents:
 
 ```javascript
-new GaEvents.Event(category, action, label, value)
+new GaEvents.Event('example_event', { extra: 'dimension' })
 ```
 
 We have taken special care of tracking events while the DOM is loading.
 Events get collected until the DOM is ready and flushed afterwards.
-
-### Default values
-
-While collecting hundreds of thousands of events on a daily basis in
-Google Analytics we found corrupted aggregated events when the event label or
-value is omitted. We now enforce a default label ("-") and value (1).
 
 ### Too many events
 
@@ -201,7 +163,6 @@ Yes please! Use pull requests.
 ## More docs and tools
 
 * [Google Analytics: Event Tracking](https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide)
-* [Google Universal Analytics: Event Tracking (analytics.js)](https://developers.google.com/analytics/devguides/collection/analyticsjs/events)
 * [Google Universal Analytics: Event Tracking (gtag.js)](https://developers.google.com/analytics/devguides/collection/gtagjs/events)
 * [Google Tag Manager: Custom Events](http://support.google.com/tagmanager/answer/2574372#GoogleAnalytics)
 * [Chrome Web Store: Tag Assistant](https://chrome.google.com/webstore/detail/tag-assistant-legacy-by-g/kejbdjndbnbjgmefkgdddjlbokphdefk)

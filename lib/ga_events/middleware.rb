@@ -4,6 +4,8 @@ require 'rack/utils'
 
 module GaEvents
   class Middleware
+    SESSION_GA_EVENTS_KEY = 'ga_events.events'
+
     def initialize(app)
       @app = app
     end
@@ -20,12 +22,11 @@ module GaEvents
         serialized = GaEvents::List.to_s
         if xhr_or_turbolinks?(request)
           # AJAX request
-          headers['X-GA-Events'] = serialized
-
+          headers['x-ga-events'] = CGI.escapeURIComponent(serialized)
         elsif redirect?(status)
-          # 30x/redirect? Then add event list to flash to survive the redirect.
-          add_events_to_flash(env, serialized)
-
+          # 30x/redirect? Then add event list to rack session to survive the
+          # redirect.
+          add_events_to_session(env, serialized)
         elsif html?(status, headers)
           response = inject_div(response, serialized)
         end
@@ -37,23 +38,14 @@ module GaEvents
     private
 
     def init_event_list(env)
-      flash = env['rack.session'] && env['rack.session']['flash'] &&
-              env['rack.session']['flash']['flashes']
-
-      # The key has to be removed from the flash here to ensure it does not
-      # remain after the finished redirect. This copies the behaviour of the
-      # "#use" and "#sweep" methods of the rails flash middleware:
-      # https://github.com/rails/rails/blob/v3.2.14/actionpack/lib/action_dispatch/middleware/flash.rb#L220
-      GaEvents::List.init(flash&.delete('ga_events'))
+      events = env['rack.session']&.delete(SESSION_GA_EVENTS_KEY)
+      GaEvents::List.init(events)
     end
 
-    def add_events_to_flash env, serialized_data
-      flash = env['rack.session'] && env['rack.session']['flash'] &&
-              env['rack.session']['flash']['flashes']
-
-      return unless flash
-
-      flash['ga_events'] = serialized_data
+    def add_events_to_session env, serialized_data
+      if session = env.dig('rack.session')
+        session[SESSION_GA_EVENTS_KEY] = serialized_data
+      end
     end
 
     def normalize_response(response)

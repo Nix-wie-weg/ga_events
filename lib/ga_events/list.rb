@@ -12,13 +12,18 @@ module GaEvents
       def_delegators :data, :<<, :present?
 
       def to_s
-        data.collect(&:to_s).join('$')
+        "[#{data.collect(&:to_s).join(',')}]"
       end
 
       # Init list, optionally with a string of serialized events
       def init(str = nil)
         Thread.current[:ga_events] = []
-        (str || '').split('$').each { |s| GaEvents::Event.from_string(s) }
+        if str.present?
+          raw_events = JSON.parse(str)
+          raw_events.each { |raw_event| GaEvents::Event.from_hash(raw_event) }
+        end
+      rescue JSON::ParserError
+        nil
       end
 
       private

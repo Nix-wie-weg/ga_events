@@ -33,26 +33,26 @@ describe GaEvents::Middleware do
     context 'events present in GaEvents::List' do
       let(:app) do
         proc do |_|
-          GaEvents::Event.new('category', 'action', 'label', 'value')
+          GaEvents::Event.new('test', { 'cool' => 'stuff' })
           [200, { 'Content-Type' => 'text/html' }, response_body]
         end
       end
 
-      context 'there is no body closing tag' do
+      context 'when no body closing tag exists' do
         let(:response) { request.get('/') }
         it 'leaves everything as it was' do
           expect(response.body).to eq response_body
         end
       end
 
-      context 'there exists body closing tag' do
+      context 'when a body closing tag exists' do
         let(:response) { request.get('/') }
         let(:response_body) { 'something awesome!</body>' }
 
         it 'injects data-ga-events' do
           expect(response.body).to eq(
             'something awesome!' \
-            "<div data-ga-events='category|action|label|value'></div></body>"
+            "<div data-ga-events='[{\"__event__\":\"test\",\"cool\":\"stuff\"}]'></div></body>"
           )
         end
       end

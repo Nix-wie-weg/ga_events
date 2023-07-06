@@ -27,6 +27,6 @@ Gem::Specification.new do |gem|
   gem.version       = GaEvents::VERSION
   gem.licenses      = ['MIT']
 
-  gem.required_ruby_version = '>= 2.3'
+  gem.required_ruby_version = '>= 3.2'
   gem.add_dependency 'rails', '>= 4.2'
 end
