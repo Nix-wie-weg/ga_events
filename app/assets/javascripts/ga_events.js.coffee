@@ -7,21 +7,25 @@ class GaEvents.Event
   adapter: null
   @list: []
   @may_flush: false
-  @header_key: "X-GA-Events"
+  @header_key: "x-ga-events"
   @html_key: "ga-events"
   @require_user_consent: false
   @user_consent_given: false
   klass: @
 
   # Decompose an event-string (ruby side) into an event object.
-  @from_string: (string) ->
-    $.map string.split("$"), (part) =>
-      [category, action, label, value] = part.split "|"
-      new @(category, action, label, value)
+  @from_json: (string) ->
+    events = JSON.parse(string)
+
+    $.map events, (event) =>
+      if event_name = event.__event__
+        delete event.__event__
+        new @(event_name, event)
 
   @from_dom: ->
-    dom_events = $("div[data-#{@html_key}]").data @html_key
-    @from_string dom_events if dom_events?
+    data_attribute = "data-#{@html_key}"
+    dom_events = $("div[#{data_attribute}]").attr data_attribute
+    @from_json dom_events if dom_events?
 
   # Events should not be sent to an adapter unless the DOM has finished loading.
   @flush: ->
@@ -32,32 +36,18 @@ class GaEvents.Event
       @list = []
 
   # Add all events to a queue to flush them later
-  constructor: (@category = "-", @action = "-", @label = "-", @value = 1) ->
+  constructor: (@event_name, @options = {}) ->
     @klass.list.push @
     @klass.flush()
 
-  escape: (str) ->
-    return unless str
-    "#{str}".replace(/ä/g, "ae")
-            .replace(/ö/g, "oe")
-            .replace(/ü/g, "ue")
-            .replace(/Ä/g, "Ae")
-            .replace(/Ö/g, "Oe")
-            .replace(/Ü/g, "Ue")
-            .replace(/ß/g, "ss")
+  push_to_adapter: ->
+    if @is_valid_event_name()
+      @klass.adapter().push(@event_name, @options)
+    else
+      console.warn("GA4 event name \"#{@event_name}\" is invalid.") if console
 
-  to_hash: ->
-    # Category, action and label must be escaped and of type string.
-    action: @escape(@action)
-    category: @escape(@category)
-    label: @escape(@label)
-    # Value has to be a positive integer or defaults to 1
-    value: @to_positive_integer(@value)
-
-  to_positive_integer: (n) ->
-    if isFinite(n) and parseInt(n) >= 0 then parseInt n else 1
-
-  push_to_adapter: -> @klass.adapter().push @to_hash()
+  # https://support.google.com/analytics/answer/13316687?hl=en#zippy=%2Cweb
+  is_valid_event_name: -> /^[a-z]+[a-z0-9_]*$/i.test(@event_name)
 
   jQuery =>
     @may_flush = true
@@ -65,7 +55,7 @@ class GaEvents.Event
 
     process_xhr = (xhr) =>
       xhr_events = xhr.getResponseHeader @header_key
-      @from_string xhr_events if xhr_events?
+      @from_json decodeURIComponent(xhr_events) if xhr_events?
 
     $(document).ajaxComplete((_, xhr) -> process_xhr(xhr))
     $(document).on "turbolinks:request-end", (event) ->
@@ -75,59 +65,31 @@ class GaEvents.Event
     @from_dom()
 
 
-class GaEvents.GoogleTagManagerAdapter
-  constructor: (@event = "ga_event") ->
-  push: (data) ->
-    data.event = @event
-    data.non_interaction = true
-    window.dataLayer.push data
-
-class GaEvents.GoogleUniversalAnalyticsAdapter
+class GaEvents.GTagAdapter
   constructor: (options) ->
-    @use_gtag_variant = options?.use_gtag_variant || false
-    @analytics_object_name =
-      options?.analytics_object_name ||
-      (if @use_gtag_variant then "gtag" else "ga")
-
-    # Only relevant for analytics.js
-    @send_method_name = options?.send_method_name || "send"
+    @analytics_object_name = options?.analytics_object_name || 'gtag'
 
     # https://developers.google.com/analytics/devguides/migration/ua/analyticsjs-to-gtagjs#measure_pageviews_with_specified_trackers
     @tracker_name = options?.tracker_name || false
-  push: (data) ->
-    if @use_gtag_variant
-      options = {
-        "event_category": data.category,
-        "event_label": data.label,
-        "value": data.value,
-        "non_interaction": true
-      }
-      options["send_to"] = @tracker_name if @tracker_name
-      window[@analytics_object_name]("event", data.action, options)
-    else
-      method_call_name =
-        if @tracker_name
-          "#{@tracker_name}.#{@send_method_name}"
-        else
-          @send_method_name
-      window[@analytics_object_name](
-        method_call_name, "event",
-        data.category, data.action, data.label, data.value,
-        {"nonInteraction": true}
-      )
 
-class GaEvents.GoogleAnalyticsAdapter
-  # https://developers.google.com/analytics/devguides/collection/gajs/eventTrackerGuide#SettingUpEventTracking
-  # Send events non_interactive => no influence on bounce rates
-  push: (data) ->
-    window._gaq.push(
-      ["_trackEvent", data.category, data.action, data.label, data.value, true]
-    )
+  push: (event_name, data) ->
+    data.send_to = @tracker_name if @tracker_name
+    window[@analytics_object_name]("event", event_name, data)
 
 class GaEvents.NullAdapter
-  push: (obj) -> console.log obj if console?
+  push: (event_name, data) -> console.log(event_name, data) if console?
+
+class GaEvents.GoogleTagManagerAdapter
+  constructor: (@event = "ga_event") ->
+
+  push: (event_name, data) ->
+    data.event = @event
+    data.event_name = event_name
+    data.non_interaction = true
+    window.dataLayer.push data
 
 class GaEvents.TestAdapter
-  push: (obj) ->
+  push: (event_name, data) ->
+    loggedEvent = Object.assign({ event_name: event_name }, data)
     window.events = [] unless window.events?
-    window.events.push obj
+    window.events.push(loggedEvent)

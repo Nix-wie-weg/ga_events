@@ -64,3 +64,29 @@ The format suggested at http://keepachangelog.com/ is used.
 - Universal Analytics Adapter can be configured to use a custom name for the
   analytics object (defaults to `window.ga()` for `analytics.js` and
   `window.gtag()` for `gtag.js`)
+
+## 4.0.0 - 2023-08-xx
+
+### Added
+  - Support for GA4 using the `GTagAdapter`
+
+### Breaking
+-  Dropped support for older rubies. The gem requires at least ruby 3.2 now
+-  UniversalAnalyticsAdapter and GoogleAnalyticsAdapter removed
+-  The `GaEvent::Event` constructor changed to conform to the new newer
+GA4 event interface.
+
+  ```ruby
+  # 3.x and before
+  GaEvents::Event.new('category', 'action', 'label', 'value')
+
+  # 4.x onwards
+  GaEvents::Event.new('event_name', {
+    custom_dimension: 'xxx',
+    custom_dimension2: 'yyy'
+  })
+  ```
+- Events that should be kept on redirects are no longer mixed into rails
+flashes. Redirect events are stored inside a custom rack session variable
+instead.
+

@@ -1,5 +1,8 @@
 *.gem
+bin/rspec
 .bundle
 Gemfile.lock
 pkg
 vendor
+.ruby-version
+.tools-version
