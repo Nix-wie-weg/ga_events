@@ -3,9 +3,8 @@
 require File.expand_path('lib/ga_events/version', __dir__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ['Florian Dütsch', 'Sven Winkler']
-  gem.email         = ['florian.duetsch@nix-wie-weg.de',
-                       'sven.winkler@nix-wie-weg.de']
+  gem.authors       = ['Nix-wie-weg Team']
+  gem.email         = ['admin@nix-wie-weg.de']
   gem.description   =
     "Google Analytics' Event Tracking everywhere in your Rails app)"
   gem.summary       = 'This gem allows you to annotate events everywhere in ' \

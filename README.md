@@ -156,7 +156,7 @@ Yes please! Use pull requests.
 
 ### Credits
 
-* [danielbayerlein](https://github.com/danielbayerlein) former core committer
+* [danielbayerlein](https://github.com/danielbayerlein), [der-flo](https://github.com/der-flo), [svenwin](https://github.com/svenwin) former core committer
 * [jhilden](https://github.com/jhilden) for ideas and bug reports
 * [brain-geek](https://github.com/brain-geek) for bug fixes, specs, features
 
