@@ -33,7 +33,11 @@ describe GaEvents::Middleware do
     context 'events present in GaEvents::List' do
       let(:app) do
         proc do |_|
-          GaEvents::Event.new('test', { 'cool' => 'stuff' })
+          GaEvents::Event.new(
+            'test',
+            'cool' => 'stuff',
+            'ding' => ["it's a bug", 'this is "fine"', 'x=1&y=2', '>:3<']
+          )
           [200, { 'Content-Type' => 'text/html' }, response_body]
         end
       end
@@ -52,7 +56,16 @@ describe GaEvents::Middleware do
         it 'injects data-ga-events' do
           expect(response.body).to eq(
             'something awesome!' \
-            "<div data-ga-events='[{\"__event__\":\"test\",\"cool\":\"stuff\"}]'></div></body>"
+            '<div data-ga-events="[{' \
+            '&quot;__event__&quot;:&quot;test&quot;,' \
+            '&quot;cool&quot;:&quot;stuff&quot;,' \
+            '&quot;ding&quot;:[' \
+              '&quot;it&#39;s a bug&quot;,' \
+              '&quot;this is \&quot;fine\&quot;&quot;,' \
+              '&quot;x=1&amp;y=2&quot;,' \
+              '&quot;&gt;:3&lt;&quot;' \
+            ']' \
+          '}]"></div></body>'
           )
         end
       end
