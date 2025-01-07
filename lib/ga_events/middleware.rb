@@ -56,7 +56,12 @@ module GaEvents
 
     def inject_div(response, serialized_data)
       r = normalize_response(response)
-      [r.sub('</body>', "<div data-ga-events='#{serialized_data}'></div>\\0")]
+      serialized_data = CGI.escapeHTML(serialized_data)
+      [
+        r.sub('</body>') do |body|
+          "<div data-ga-events=\"#{serialized_data}\"></div>#{body}"
+        end
+      ]
     end
 
     # Taken from:
