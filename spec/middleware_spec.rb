@@ -42,8 +42,9 @@ describe GaEvents::Middleware do
         end
       end
 
-      context 'when no body closing tag exists' do
+      context 'when no closing body tag exists' do
         let(:response) { request.get('/') }
+
         it 'leaves everything as it was' do
           expect(response.body).to eq response_body
         end
@@ -60,12 +61,12 @@ describe GaEvents::Middleware do
             '&quot;__event__&quot;:&quot;test&quot;,' \
             '&quot;cool&quot;:&quot;stuff&quot;,' \
             '&quot;ding&quot;:[' \
-              '&quot;it&#39;s a bug&quot;,' \
-              '&quot;this is \&quot;fine\&quot;&quot;,' \
-              '&quot;x=1&amp;y=2&quot;,' \
-              '&quot;&gt;:3&lt;&quot;' \
+            '&quot;it&#39;s a bug&quot;,' \
+            '&quot;this is \&quot;fine\&quot;&quot;,' \
+            '&quot;x=1&amp;y=2&quot;,' \
+            '&quot;&gt;:3&lt;&quot;' \
             ']' \
-          '}]"></div></body>'
+            '}]"></div></body>'
           )
         end
       end

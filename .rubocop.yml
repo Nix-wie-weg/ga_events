@@ -1,5 +1,7 @@
 AllCops:
-  TargetRubyVersion: 2.3
+  SuggestExtensions: false
+  NewCops: enable
+  TargetRubyVersion: 3.4
   Exclude:
     - 'vendor/bundle/**/*'
   DisplayCopNames: true

@@ -20,12 +20,12 @@ Gem::Specification.new do |gem|
 
   gem.files         = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
   gem.executables   = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = 'ga_events'
   gem.require_paths = ['lib']
   gem.version       = GaEvents::VERSION
   gem.licenses      = ['MIT']
 
-  gem.required_ruby_version = '>= 3.2'
-  gem.add_dependency 'rails', '>= 4.2'
+  gem.required_ruby_version = '>= 3.4'
+  gem.add_dependency 'rails', '>= 7.2'
+  gem.metadata['rubygems_mfa_required'] = 'true'
 end
