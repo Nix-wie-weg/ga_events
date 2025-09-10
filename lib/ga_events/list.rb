@@ -9,6 +9,7 @@ module GaEvents
   module List
     class << self
       extend Forwardable
+
       def_delegators :data, :<<, :present?
 
       def to_s

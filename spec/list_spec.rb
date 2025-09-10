@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 RSpec.describe 'GaEvents::List' do
@@ -22,7 +24,7 @@ RSpec.describe 'GaEvents::List' do
     JSON
 
     expect(
-      GaEvents::List.send(:data).to_h { [_1.event_name, _1.event_params] }
+      GaEvents::List.send(:data).to_h { [it.event_name, it.event_params] }
     ).to eq({ 'clicked' => { 'a' => 'a' } })
   end
 
@@ -34,7 +36,7 @@ RSpec.describe 'GaEvents::List' do
     JSON
 
     expect(
-      GaEvents::List.send(:data).to_h { [_1.event_name, _1.event_params] }
+      GaEvents::List.send(:data).to_h { [it.event_name, it.event_params] }
     ).to be_empty
   end
 end
