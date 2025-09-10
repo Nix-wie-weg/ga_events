@@ -38,7 +38,7 @@ describe GaEvents::Middleware do
             'cool' => 'stuff',
             'ding' => ["it's a bug", 'this is "fine"', 'x=1&y=2', '>:3<']
           )
-          [200, { 'Content-Type' => 'text/html' }, response_body]
+          [200, { 'Content-Type' => 'text/html' }, [response_body]]
         end
       end
 
