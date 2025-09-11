@@ -13,8 +13,8 @@ pushes it to Google Analytics via gtag.js or Google Tag Manager.
 
 ## Dependencies
 
-* Ruby >= 3.2
-* Rails 4.2 onwards
+* Ruby >= 3.4
+* Rails 7.2 onwards
 * jQuery
 
 ## Installation
