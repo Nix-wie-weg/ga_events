@@ -63,15 +63,24 @@ class GaEvents.Event
       xhr_events = xhr.getResponseHeader @header_key
       @from_json decodeURIComponent(xhr_events) if xhr_events?
 
+    process_fetch = (response) =>
+      events = response.headers.get @header_key
+      @from_json decodeURIComponent(events) if events?
+
+    # jQuery $.ajax
     if window.jQuery && jQuery.ajax
       # This event can only be caught on the jQuery event bus.
-      jQuery(document).on("ajaxComplete",  (_, xhr) ->
-        process_xhr(xhr)
-      )
+      jQuery(document).on("ajaxComplete",  (_, xhr) -> process_xhr(xhr))
 
+
+    # classic Turbolinks
     addEventListener("turbolinks:request-end", (event) ->
-      xhr = event.originalEvent.data.xhr
-      process_xhr(xhr)
+      process_xhr(event.originalEvent.data.xhr)
+    )
+
+    # Hotwire/Turbo
+    addEventListener("turbo:before-fetch-response", (event) ->
+      process_fetch(event.detail.fetchResponse.response)
     )
 
     @from_dom()

@@ -19,7 +19,7 @@ pushes it to Google Analytics via gtag.js or Google Tag Manager.
 ## Optional dependencies
 
 * jQuery
-* Turbolinks
+* Turbolinks or Hotwire Turbo
 
 ## Installation
 
