@@ -16,23 +16,26 @@ class GaEvents.Event
   # Decompose an event-string (ruby side) into an event object.
   @from_json: (string) ->
     events = JSON.parse(string)
-
-    $.map events, (event) =>
+    events.map((event) ->
       if event_name = event.__event__
         delete event.__event__
         new @(event_name, event)
+    , @)
 
   @from_dom: ->
     data_attribute = "data-#{@html_key}"
-    dom_events = $("div[#{data_attribute}]").attr data_attribute
-    @from_json dom_events if dom_events?
+    dom_events = document
+      .querySelector("div[#{data_attribute}]")
+      ?.getAttribute(data_attribute)
+
+    @from_json(dom_events) if dom_events?
 
   # Events should not be sent to an adapter unless the DOM has finished loading.
   @flush: ->
     return if @require_user_consent && !@user_consent_given
 
     if @list.length > 0 and @may_flush
-      $.map @list, (event) -> event.push_to_adapter()
+      @list.forEach((event) -> event.push_to_adapter())
       @list = []
 
   # Add all events to a queue to flush them later
@@ -49,20 +52,34 @@ class GaEvents.Event
   # https://support.google.com/analytics/answer/13316687?hl=en#zippy=%2Cweb
   is_valid_event_name: -> /^[a-z]+[a-z0-9_]*$/i.test(@event_name)
 
-  jQuery =>
+
+  start = ->
     @may_flush = true
     @flush()
+
+    addEventListener = document.addEventListener
 
     process_xhr = (xhr) =>
       xhr_events = xhr.getResponseHeader @header_key
       @from_json decodeURIComponent(xhr_events) if xhr_events?
 
-    $(document).ajaxComplete((_, xhr) -> process_xhr(xhr))
-    $(document).on "turbolinks:request-end", (event) ->
+    if window.jQuery && jQuery.ajax
+      # This event can only be caught on the jQuery event bus.
+      jQuery(document).on("ajaxComplete",  (_, xhr) ->
+        process_xhr(xhr)
+      )
+
+    addEventListener("turbolinks:request-end", (event) ->
       xhr = event.originalEvent.data.xhr
       process_xhr(xhr)
+    )
 
     @from_dom()
+
+  if document.readyState == "loading"
+    addEventListener("DOMContentLoaded", start.bind(@), once: true)
+  else
+    start.call(@)
 
 
 class GaEvents.GTagAdapter

@@ -15,7 +15,11 @@ pushes it to Google Analytics via gtag.js or Google Tag Manager.
 
 * Ruby >= 3.4
 * Rails 7.2 onwards
+
+## Optional dependencies
+
 * jQuery
+* Turbolinks
 
 ## Installation
 
@@ -27,7 +31,7 @@ gem 'ga_events'
 
 Run the `bundle` command to install it.
 
-Add to the top of your `application.js` (but after requiring jQuery):
+Add to the top of your `application.js`
 
 ```javascript
 //= require ga_events.js
