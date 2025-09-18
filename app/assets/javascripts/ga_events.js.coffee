@@ -34,9 +34,15 @@ class GaEvents.Event
   @flush: ->
     return if @require_user_consent && !@user_consent_given
 
-    if @list.length > 0 and @may_flush
-      @list.forEach((event) -> event.push_to_adapter())
-      @list = []
+    push_events = =>
+      if @list.length > 0 and @may_flush
+        @list.forEach((event) -> event.push_to_adapter())
+        @list = []
+
+    if window.requestIdleCallback
+      requestIdleCallback(push_events, timeout: 250)
+    else
+      setTimeout(push_events, 1)
 
   # Add all events to a queue to flush them later
   constructor: (@event_name, @options = {}) ->
