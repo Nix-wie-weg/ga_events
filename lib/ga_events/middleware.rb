@@ -9,6 +9,7 @@ require 'rubygems'
 module GaEvents
   class Middleware
     SESSION_GA_EVENTS_KEY = 'ga_events.events'
+    RESPONSE_HEADER = 'x-ga-events'
 
     HEADERS_KLASS = if Gem::Version.new(Rack.release) < Gem::Version.new('3.0')
                       Rack::Utils::HeaderHash
@@ -31,9 +32,9 @@ module GaEvents
 
         # Can outgrow, headers might get too big
         serialized_events = GaEvents::List.to_s
-        if xhr_or_turbolinks?(request)
+        if xhr_or_turbo?(request)
           # AJAX request
-          headers['x-ga-events'] = CGI.escapeURIComponent(serialized_events)
+          headers[RESPONSE_HEADER] = CGI.escapeURIComponent(serialized_events)
         elsif redirect?(status)
           # 30x/redirect? Then add event list to rack session to survive the
           # redirect.
@@ -76,18 +77,20 @@ module GaEvents
 
     # Taken from:
     # https://github.com/rack/rack-contrib/blob/master/lib/rack/contrib/jsonp.rb
-    def html?(status, headers)
+    def html?(status, response_headers)
       !Rack::Utils::STATUS_WITH_NO_ENTITY_BODY.include?(status.to_i) &&
-        headers.key?('content-type') &&
-        headers['content-type'].start_with?('text/html')
+        response_headers.key?('content-type') &&
+        response_headers['content-type'].start_with?('text/html')
     end
 
     def redirect?(status)
       (300..399).cover?(status)
     end
 
-    def xhr_or_turbolinks?(request)
-      request.xhr? || request.env['HTTP_TURBOLINKS_REFERRER']
+    def xhr_or_turbo?(request)
+      request.xhr? ||
+        request.env['HTTP_TURBOLINKS_REFERRER'] ||
+        request.env['HTTP_X_TURBO_REQUEST_ID']
     end
   end
 end
